@@ -2,6 +2,7 @@ import { ThemeProvider } from "styled-components";
 import { StyledApp } from "./components/styles/app.styles";
 import { GlobalStyles } from "./components/styles/Global";
 import { BrowserRouter } from "react-router-dom";
+import { RouteComponent } from "./Routes";
 
 const theme = {
   colors: {
@@ -9,7 +10,7 @@ const theme = {
     body: "#fff",
     footer: "#003333",
   },
-  mobile: "980px",
+  mobile: "800px",
 };
 
 function App() {
@@ -17,7 +18,9 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <StyledApp></StyledApp>
+        <StyledApp>
+          <RouteComponent />
+        </StyledApp>
       </ThemeProvider>
     </BrowserRouter>
   );
