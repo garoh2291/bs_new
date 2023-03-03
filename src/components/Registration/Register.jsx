@@ -8,7 +8,7 @@ import { RegFormWrapper } from "../styles/auth.styles";
 import TextFields from "../SmallComponents/TextFields";
 import SelectFields from "../SmallComponents/SelectFields";
 import { Copyright } from "../SmallComponents/Copyright";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUserThunk } from "../../redux/provider/userSlice";
 import { notification } from "antd";
@@ -18,13 +18,11 @@ const schema = yup.object({
   surname: yup.string().required("Full Name is required"),
   email: yup.string().required("Email is required").email(),
   country: yup.string().required("Country is required"),
-  password: yup
-    .string()
-    .required("Password is required")
-    .matches(
-      pawdRegExp,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-    ),
+  password: yup.string().required("Password is required"),
+  //.matches(
+  //  pawdRegExp,
+  //  "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+  //),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "Password must match"),
@@ -32,12 +30,18 @@ const schema = yup.object({
 
 export const RegisterForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [api, contextHolder] = notification.useNotification();
   const cb = (type, text) => {
     api[type]({
-      message: "Notification Title",
+      message: "Notification ",
       description: text,
     });
+    if (type === "success") {
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
+    }
   };
   const {
     handleSubmit,
@@ -59,7 +63,7 @@ export const RegisterForm = () => {
   const onSubmit = (data) => {
     delete data.confirmPassword;
     dispatch(registerUserThunk({ data, cb }));
-    //reset();
+    reset();
   };
 
   return (
@@ -72,7 +76,6 @@ export const RegisterForm = () => {
           flexDirection: "column",
           my: 8,
           mx: 4,
-
           alignItems: "center",
         }}
       >

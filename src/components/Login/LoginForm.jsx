@@ -7,19 +7,38 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { RegFormWrapper } from "../styles/auth.styles";
 import { Copyright } from "../SmallComponents/Copyright";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { notification } from "antd";
+import { useDispatch } from "react-redux";
+import { loginUserThunk } from "../../redux/provider/userSlice";
 
 export const LoginForm = () => {
+  const [api, contextHolder] = notification.useNotification();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const cb = (type, text) => {
+    if (type === "success") {
+      navigate("/");
+    } else {
+      api[type]({
+        message: "Notification ",
+        description: text,
+      });
+    }
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const user = {
       email: data.get("email"),
       password: data.get("password"),
-    });
+    };
+
+    dispatch(loginUserThunk({ user, cb }));
   };
   return (
     <RegFormWrapper>
+      {contextHolder}
       <Box
         sx={{
           mt: 20,

@@ -28,11 +28,13 @@ export const RegFormWrapper = styled.div`
 export const AuthWrapperStyled = styled.div`
   width: calc(100% - 600px);
   height: 100%;
-  border: 1px solid;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  background-image: ${({ bgColor }) => `url(${bgColor})` || "none"};
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   @media (max-width: ${({ theme }) => theme.mobile}) {
     display: none;
   }

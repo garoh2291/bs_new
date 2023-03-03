@@ -1,6 +1,7 @@
 import { AuthWrapperStyled } from "../styles/auth.styles";
 import Button from "@mui/material/Button";
 import { useLocation, useNavigate } from "react-router-dom";
+import main from "../../assets/main.jpg";
 
 export const AuthWrapper = () => {
   const { pathname } = useLocation();
@@ -15,11 +16,13 @@ export const AuthWrapper = () => {
     }
   };
 
+  console.log(main);
   return (
-    <AuthWrapperStyled>
-      <Button variant="outlined" onClick={handleNavigate}>
+    <AuthWrapperStyled bgColor={main}>
+      {/*<img src={main} alt="" />*/}
+      {/*<Button variant="outlined" onClick={handleNavigate}>
         Click for {toPage}
-      </Button>
+      </Button>*/}
     </AuthWrapperStyled>
   );
 };
